@@ -1,12 +1,19 @@
 namespace DecoratorConsoleApp
 {
-    public class ConcreteDecoratorB : Decorator
+    // Decorator that applies a service fee to the account balance
+    public class FeeDecorator : AccountDecorator
     {
-        public ConcreteDecoratorB(Component component) : base(component) { }
+        private decimal _feeAmount;
 
-        public override string Operation()
+        public FeeDecorator(Account account, decimal feeAmount) : base(account)
         {
-            return $"ConcreteDecoratorB({base.Operation()})";
+            _feeAmount = feeAmount;
+        }
+
+        public override decimal GetBalance()
+        {
+            // Subtracts the fee from the current balance
+            return base.GetBalance() - _feeAmount;
         }
     }
 }

@@ -1,7 +1,9 @@
 namespace DecoratorConsoleApp
 {
-    public abstract class Component
+    // Abstract base class representing a financial account
+    // Defines the contract for calculating the account balance
+    public abstract class Account
     {
-        public abstract string Operation();
+        public abstract decimal GetBalance();
     }
 }

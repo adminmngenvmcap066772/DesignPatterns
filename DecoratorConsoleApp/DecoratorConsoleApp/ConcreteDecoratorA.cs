@@ -1,12 +1,19 @@
 namespace DecoratorConsoleApp
 {
-    public class ConcreteDecoratorA : Decorator
+    // Decorator that adds interest to the account balance
+    public class InterestDecorator : AccountDecorator
     {
-        public ConcreteDecoratorA(Component component) : base(component) { }
+        private decimal _interestRate; // e.g., 0.05 for 5%
 
-        public override string Operation()
+        public InterestDecorator(Account account, decimal interestRate) : base(account)
         {
-            return $"ConcreteDecoratorA({base.Operation()})";
+            _interestRate = interestRate;
+        }
+
+        public override decimal GetBalance()
+        {
+            // Adds interest to the current balance
+            return base.GetBalance() * (1 + _interestRate);
         }
     }
 }

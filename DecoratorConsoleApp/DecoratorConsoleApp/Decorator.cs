@@ -1,17 +1,19 @@
 namespace DecoratorConsoleApp
 {
-    public abstract class Decorator : Component
+    // Abstract decorator class for Account
+    // Allows additional financial operations to be added dynamically
+    public abstract class AccountDecorator : Account
     {
-        protected Component _component;
+        protected Account _account;
 
-        public Decorator(Component component)
+        public AccountDecorator(Account account)
         {
-            _component = component;
+            _account = account;
         }
 
-        public override string Operation()
+        public override decimal GetBalance()
         {
-            return _component.Operation();
+            return _account.GetBalance();
         }
     }
 }
