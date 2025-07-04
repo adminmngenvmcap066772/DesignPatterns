@@ -8,7 +8,12 @@
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
     <hr />
-    <h2>Options Pattern Demo</h2>
+    <h2>Options Pattern Demo (Finance Scenario)</h2>
+    <!--
+        In a finance dashboard, you might want to display the site title and limit
+        the number of items (e.g., recent transactions or budget categories) shown to the user.
+        These values are configured using the options pattern and appsettings.json.
+    -->
     <p><strong>Site Title:</strong> @Model.SiteTitle</p>
-    <p><strong>Max Items:</strong> @Model.MaxItems</p>
+    <p><strong>Max Items (e.g., max transactions to display):</strong> @Model.MaxItems</p>
 </div>
