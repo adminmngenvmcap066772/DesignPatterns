@@ -12,7 +12,7 @@
 <hr />
 <h2>Dependency Injection Lifetimes Demo</h2>
 <form method="post" asp-page-handler="Reload">
-    <button type="submit" class="btn btn-primary">Reload ScopedId and TransientId</button>
+    <button type="submit" class="btn btn-primary">Reload ScopedId, SingletonId, and TransientId</button>
 </form>
 <br />
 <table class="table table-bordered">
@@ -32,7 +32,7 @@
         <tr>
             <td>Singleton</td>
             <td>@Model.SingletonId</td>
-            <td>-</td>
+            <td>@(Model.ReloadedSingletonId == Guid.Empty ? "-" : Model.ReloadedSingletonId.ToString())</td>
         </tr>
         <tr>
             <td>Transient</td>

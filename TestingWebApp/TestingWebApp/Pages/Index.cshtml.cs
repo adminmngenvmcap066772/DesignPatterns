@@ -19,6 +19,7 @@ namespace TestingWebApp.Pages
         public Guid SingletonId { get; private set; }
         public Guid TransientId { get; private set; }
         public Guid ReloadedScopedId { get; set; }
+        public Guid ReloadedSingletonId { get; set; }
         public Guid ReloadedTransientId { get; set; }
 
         // Inject the demo services for each lifetime and IServiceProvider for manual reload
@@ -40,18 +41,20 @@ namespace TestingWebApp.Pages
             TransientId = transient.GetOperationId();
         }
 
-        // Handler to reload ScopedId and TransientId
+        // Handler to reload ScopedId, SingletonId, and TransientId
         public async Task<IActionResult> OnPostReloadAsync()
         {
             // Get new instances from the service provider
             var newScoped = (ScopedDemoService)_serviceProvider.GetService(typeof(ScopedDemoService));
+            var newSingleton = (SingletonDemoService)_serviceProvider.GetService(typeof(SingletonDemoService));
             var newTransient = (TransientDemoService)_serviceProvider.GetService(typeof(TransientDemoService));
             ReloadedScopedId = newScoped.GetOperationId();
+            ReloadedSingletonId = newSingleton.GetOperationId();
             ReloadedTransientId = newTransient.GetOperationId();
             // Keep the original values for display
             ScopedId = _scoped.GetOperationId();
-            TransientId = _transient.GetOperationId();
             SingletonId = _singleton.GetOperationId();
+            TransientId = _transient.GetOperationId();
             return Page();
         }
     }
