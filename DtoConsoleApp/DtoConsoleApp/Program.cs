@@ -1,4 +1,7 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿// This program demonstrates how to use a Data Transfer Object (DTO) to retrieve and display
+// person data from a web API. In a financial context, this pattern is useful for securely
+// transferring customer or account data between services or applications, ensuring only
+// necessary information is exposed to the client.
 using System;
 using System.Net.Http;
 using System.Net.Http.Json;
@@ -8,18 +11,21 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        // Call the Person API
+        // Call the Person API to retrieve person data
         using var client = new HttpClient();
         // Adjust the URL as needed if running on a different port
         var person = await client.GetFromJsonAsync<Person>("http://localhost:5026/api/person");
         if (person != null)
         {
+            // Map the received data to a DTO for secure transfer and display
             var personDto = new PersonDto
             {
-                Id = person.Id,
-                Name = person.Name
+                Id = person.Id, // Only expose the ID
+                Name = person.Name, // Only expose the Name
+                Email = person.Email // Now also expose the Email for financial notifications
             };
-            Console.WriteLine($"DTO: Id={personDto.Id}, Name={personDto.Name}");
+            // In a financial app, this could be used to show customer info without sensitive data
+            Console.WriteLine($"DTO: Id={personDto.Id}, Name={personDto.Name}, Email={personDto.Email}");
         }
         else
         {
@@ -27,3 +33,5 @@ class Program
         }
     }
 }
+// Note: The Person and PersonDto classes should match the data contract expected from the API.
+// This approach helps maintain security and clarity in financial software by controlling data exposure.
