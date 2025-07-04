@@ -5,20 +5,28 @@ using CqrsConsoleApp.CommandHandlers;
 using CqrsConsoleApp.Commands;
 using CqrsConsoleApp.QueryHandlers;
 using CqrsConsoleApp.Queries;
+using System.Threading.Tasks;
 
 // Entry point for the CQRS demo application
-Console.WriteLine("Hello, World!");
+// Updated to async Task Main to support async/await usage
+await MainAsync();
 
-var repository = new UserRepository();
+static async Task MainAsync()
+{
+    Console.WriteLine("Hello, World!");
 
-// Create a new user using the command handler
-var createHandler = new CreateUserCommandHandler(repository);
-var user = createHandler.Handle(new CreateUserCommand("Alice"));
-Console.WriteLine($"Created user: {user.Id} - {user.Name}");
+    var repository = new UserRepository();
 
-// Query the user by ID using the query handler
-var queryHandler = new GetUserQueryHandler(repository);
-var queriedUser = queryHandler.Handle(new GetUserQuery(user.Id));
-Console.WriteLine(queriedUser != null
-    ? $"Queried user: {queriedUser.Id} - {queriedUser.Name}"
-    : "User not found");
+    // Create a new user using the async command handler
+    var createHandler = new CreateUserCommandHandler(repository);
+    // Demonstrates async/await: simulates fetching a credit score before creating a user (finance scenario)
+    var user = await createHandler.HandleAsync(new CreateUserCommand("Alice"));
+    Console.WriteLine($"Created user: {user.Id} - {user.Name}");
+
+    // Query the user by ID using the async query handler
+    var queryHandler = new GetUserQueryHandler(repository);
+    var queriedUser = await queryHandler.HandleAsync(new GetUserQuery(user.Id));
+    Console.WriteLine(queriedUser != null
+        ? $"Queried user: {queriedUser.Id} - {queriedUser.Name}"
+        : "User not found");
+}

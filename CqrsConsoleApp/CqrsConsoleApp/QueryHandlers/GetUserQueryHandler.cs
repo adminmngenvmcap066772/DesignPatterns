@@ -6,11 +6,12 @@ namespace CqrsConsoleApp.QueryHandlers
     using CqrsConsoleApp.Queries;
     using CqrsConsoleApp.Entities;
     using CqrsConsoleApp.Commands;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Handles the GetUserQuery to retrieve a user by ID.
     /// </summary>
-    public class GetUserQueryHandler : IQueryHandler<GetUserQuery, User?>
+    public class GetUserQueryHandler
     {
         private readonly UserRepository _repository;
 
@@ -21,12 +22,16 @@ namespace CqrsConsoleApp.QueryHandlers
         public GetUserQueryHandler(UserRepository repository) => _repository = repository;
 
         /// <summary>
-        /// Handles the GetUserQuery.
+        /// Handles the GetUserQuery asynchronously.
+        /// Demonstrates async/await for simulating a financial database lookup.
         /// </summary>
         /// <param name="query">The query to handle.</param>
         /// <returns>The User object if found; otherwise, null.</returns>
-        public User? Handle(GetUserQuery query)
+        public async Task<User?> HandleAsync(GetUserQuery query)
         {
+            // Simulate async I/O latency (e.g., querying a financial database)
+            await Task.Delay(100);
+
             // Validate the query
             if (query.Id <= 0)
             {

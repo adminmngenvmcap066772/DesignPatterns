@@ -6,11 +6,12 @@ namespace CqrsConsoleApp.CommandHandlers
     using CqrsConsoleApp.Commands;
     using CqrsConsoleApp.Entities;
     using CqrsConsoleApp.Interface;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// Handles the CreateUserCommand to add a new user.
     /// </summary>
-    public class CreateUserCommandHandler : ICommandHandler<CreateUserCommand, User>
+    public class CreateUserCommandHandler
     {
         private readonly UserRepository _repository;
 
@@ -21,11 +22,11 @@ namespace CqrsConsoleApp.CommandHandlers
         public CreateUserCommandHandler(UserRepository repository) => _repository = repository;
 
         /// <summary>
-        /// Handles the CreateUserCommand.
+        /// Handles the CreateUserCommand asynchronously.
         /// </summary>
         /// <param name="command">The command to handle.</param>
         /// <returns>The created User object.</returns>
-        public User Handle(CreateUserCommand command)
+        public async Task<User> HandleAsync(CreateUserCommand command)
         {
             // Fake logic: simulate input validation
             if (string.IsNullOrWhiteSpace(command.Name))
@@ -34,8 +35,12 @@ namespace CqrsConsoleApp.CommandHandlers
                 command.Name = $"User_{System.Guid.NewGuid()}";
             }
 
-            // Fake logic: simulate a delay as if writing to a database
-            System.Threading.Thread.Sleep(150); // Simulate latency
+            // Use Task.Delay instead of Thread.Sleep to simulate async database latency
+            await Task.Delay(150); // Simulate latency
+
+            // Simulate fetching a credit score asynchronously (e.g., from a financial API)
+            int creditScore = await FetchCreditScoreAsync(command.Name);
+            System.Console.WriteLine($"[INFO] Fetched credit score for {command.Name}: {creditScore}");
 
             // Fake logic: log the command (in real code, use a logger)
             System.Console.WriteLine($"[LOG] Creating user with name: {command.Name}");
@@ -54,6 +59,20 @@ namespace CqrsConsoleApp.CommandHandlers
             System.Console.WriteLine($"[INFO] Welcome email sent to {user.Name}@example.com");
 
             return user;
+        }
+
+        /// <summary>
+        /// Simulates an asynchronous call to fetch a user's credit score.
+        /// In a real finance app, this would call an external API.
+        /// </summary>
+        /// <param name="userName">The user's name.</param>
+        /// <returns>A simulated credit score.</returns>
+        private async Task<int> FetchCreditScoreAsync(string userName)
+        {
+            // Simulate network latency
+            await Task.Delay(100);
+            // Return a random credit score for demonstration
+            return new System.Random().Next(300, 850);
         }
     }
 }
