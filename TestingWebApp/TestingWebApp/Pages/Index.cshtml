@@ -11,25 +11,33 @@
 
 <hr />
 <h2>Dependency Injection Lifetimes Demo</h2>
+<form method="post" asp-page-handler="Reload">
+    <button type="submit" class="btn btn-primary">Reload ScopedId and TransientId</button>
+</form>
+<br />
 <table class="table table-bordered">
     <thead>
         <tr>
             <th>Service Lifetime</th>
-            <th>Operation ID (Guid)</th>
+            <th>Original Operation ID (Guid)</th>
+            <th>Reloaded</th>
         </tr>
     </thead>
     <tbody>
         <tr>
             <td>Scoped</td>
             <td>@Model.ScopedId</td>
+            <td>@(Model.ReloadedScopedId == Guid.Empty ? "-" : Model.ReloadedScopedId.ToString())</td>
         </tr>
         <tr>
             <td>Singleton</td>
             <td>@Model.SingletonId</td>
+            <td>-</td>
         </tr>
         <tr>
             <td>Transient</td>
             <td>@Model.TransientId</td>
+            <td>@(Model.ReloadedTransientId == Guid.Empty ? "-" : Model.ReloadedTransientId.ToString())</td>
         </tr>
     </tbody>
 </table>
